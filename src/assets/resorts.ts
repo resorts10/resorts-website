@@ -168,8 +168,8 @@ export const resorts: Resort[] = [
       "شاليه أنيق بغرفتي نوم ماستر، صالة، ومطبخ مجهز، مع مسبح خاص مُدفأ 24 ساعة وحديقة مطلة وجلسة خارجية للاسترخاء.",
     bedrooms: 2,
     bathrooms: 2,
-    priceRegular: 0,
-    priceWeekend: 0,
+    priceRegular: 50,
+    priceWeekend: 70,
     currency: "د.ب",
     features: [
       "غرفتين نوم ماستر بتصميم مريح",
@@ -187,9 +187,10 @@ export const resorts: Resort[] = [
     ],
     images: [
       // غرف النوم (1 إلى 3)
-      "/assets/resort3/1.jpeg",
+      "/assets/resort3/11.jpeg",
       "/assets/resort3/2.jpeg",
       "/assets/resort3/3.jpeg",
+      "/assets/resort3/1.jpeg",
       // حمام الغرف (8)
       "/assets/resort3/8.jpeg",
       // الصالة (4 إلى 7)
@@ -200,7 +201,6 @@ export const resorts: Resort[] = [
       // المرفقات وبركة السباحه (9 إلى 12)
       "/assets/resort3/9.jpeg",
       "/assets/resort3/10.jpeg",
-      "/assets/resort3/11.jpeg",
       "/assets/resort3/12.jpeg",
     ],
     hasPrivatePool: true,
@@ -253,14 +253,14 @@ export const resorts: Resort[] = [
     ],
     images: [
       // غرف النوم (1 إلى 5)
-      "/assets/apartment1/1.jpeg",
+      "/assets/apartment1/7.jpeg",
       "/assets/apartment1/2.jpeg",
       "/assets/apartment1/3.jpeg",
       "/assets/apartment1/4.jpeg",
-      "/assets/apartment1/5.jpeg",
+      "/assets/apartment1/1.jpeg",
       // صاله المعيشه مع طاولة طعام (6 إلى 10)
       "/assets/apartment1/6.jpeg",
-      "/assets/apartment1/7.jpeg",
+      "/assets/apartment1/5.jpeg",
       "/assets/apartment1/8.jpeg",
       "/assets/apartment1/9.jpeg",
       "/assets/apartment1/10.jpeg",
@@ -269,7 +269,6 @@ export const resorts: Resort[] = [
     hasPrivateBeach: false,
     beachAccess: "nearby",
     paymentLink: "https://buy.stripe.com/test_8x2aEX7R6fFa3Oi9s36AM00",
-    deposit: 50,
     checkIn: "3:00 عصرًا",
     checkOut: "12:00 ظهرًا",
     policy: [
@@ -315,14 +314,14 @@ export const resorts: Resort[] = [
     ],
     images: [
       // غرف النوم (1 إلى 3)
-      "/assets/apartment2/1.jpeg",
+      "/assets/apartment2/6.jpeg",
       "/assets/apartment2/2.jpeg",
       "/assets/apartment2/3.jpeg",
       // دورات المياه (4 إلى 5)
       "/assets/apartment2/4.jpeg",
       "/assets/apartment2/5.jpeg",
       // صالة الجلوس والمطبخ (6 إلى 8)
-      "/assets/apartment2/6.jpeg",
+      "/assets/apartment2/1.jpeg",
       "/assets/apartment2/7.jpeg",
       "/assets/apartment2/8.jpeg",
     ],
