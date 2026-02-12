@@ -5,7 +5,13 @@ const DEFAULT_SEO_SETTINGS = {
   metaTitle: "شاليهات أمواج",
   metaDescription: "حجز وتأجير شاليهات فخمة في أمواج مع مسبح خاص وشاطئ خاص",
   metaKeywords: "Amwaj, Chalets, Bahrain, VIP, Resort, Booking",
-  ogImage: "/assets/resort1/hero.jpeg",
+  ogImage: "/assets/resort1/hero.png",
+  siteTitle: "شاليهات أمواج",
+  metadescription: "حجز وتأجير شاليهات فخمة في أمواج مع مسبح خاص وشاطئ خاص",
+  metaImage: "/assets/resort1/hero.png",
+  website: "https://amwaj-resorts-bh.vercel.app/",
+  favicon: "/favicon.ico",
+  gtmId: "G-313781141"
 };
 
 export const getSeoSettings = unstable_cache(

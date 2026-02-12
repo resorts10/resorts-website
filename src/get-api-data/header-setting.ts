@@ -3,8 +3,9 @@ import { unstable_cache } from "next/cache";
 
 const DEFAULT_HEADER_SETTINGS = {
   siteName: "شاليهات أمواج",
-  phone: "+973 0000 0000",
-  whatsapp: "https://wa.me/97300000000",
+  website: "https://amwaj-resorts-bh.vercel.app/",
+  phone: "+973 3611 8277",
+  whatsapp: "https://wa.me/97336118277",
 };
 
 export const getHeaderSettings = unstable_cache(
