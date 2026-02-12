@@ -17,7 +17,7 @@ function isVideo(path: string) {
 export default async function ResortDetailPage({ params }: Props) {
   const { id } = await params;
   const resort = getResortById(id);
-  
+
   if (!resort) {
     return notFound();
   }
@@ -28,12 +28,7 @@ export default async function ResortDetailPage({ params }: Props) {
   if (!hero) return notFound();
 
   const galleryImages = resort.images.filter((p) => !isVideo(p));
-  const mapSrc = resort.location
-    ? `https://www.google.com/maps?q=${resort.location.lat},${resort.location.lng}&hl=ar&z=15&output=embed`
-    : null;
-  const mapLink = resort.location
-    ? `https://maps.google.com/?q=${resort.location.lat},${resort.location.lng}`
-    : "https://maps.google.com";
+
 
   return (
     <main className="pt-28">
@@ -116,7 +111,6 @@ export default async function ResortDetailPage({ params }: Props) {
               id={id}
               resortName={resort.name}
               paymentLink={resort.paymentLink}
-              mapLink={mapLink}
             />
 
             <div className="flex flex-wrap gap-4 mt-6 text-sm text-text">
@@ -172,59 +166,10 @@ export default async function ResortDetailPage({ params }: Props) {
           </div>
         ) : null}
 
-        {/* Location */}
-        <div className="grid gap-6 mt-8 lg:grid-cols-2">
-          <div className="p-6 border rounded-2xl border-background-hover bg-background-hover">
-            <h2 className="text-xl font-semibold text-heading">📍 الموقع</h2>
 
-            {resort.location ? (
-              <div className="mt-4 space-y-2 text-text">
-                <p>
-                  <span className="font-semibold">Villa:</span> {resort.location.villa}
-                </p>
-                <p>
-                  <span className="font-semibold">Road:</span> {resort.location.road}
-                </p>
-                <p>
-                  <span className="font-semibold">Block:</span> {resort.location.block}
-                </p>
-                <p>
-                  <span className="font-semibold">Area:</span> {resort.location.area}
-                </p>
-
-                <a
-                  href={mapLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center mt-3 px-4 py-2 text-sm font-medium text-white rounded-lg bg-black hover:bg-background-hover transition"
-                >
-                  افتح الموقع في Google Maps
-                </a>
-              </div>
-            ) : (
-              <p className="mt-4 text-text">لا توجد بيانات موقع حالياً.</p>
-            )}
-          </div>
-
-          <div className="overflow-hidden border rounded-2xl border-background-hover bg-background-hover">
-            {mapSrc ? (
-              <iframe
-                title="Resort location"
-                src={mapSrc}
-                className="w-full h-[320px]"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            ) : (
-              <div className="flex items-center justify-center h-[320px] text-text">
-                الخريطة غير متاحة
-              </div>
-            )}
-          </div>
-        </div>
 
         {/* Client Components for Gallery and Sticky Scroll */}
-        <ResortDetailClient 
+        <ResortDetailClient
           resort={resort}
           galleryImages={galleryImages}
           resortId={id}

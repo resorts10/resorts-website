@@ -1,8 +1,11 @@
 import Stripe from "stripe";
 import Link from "next/link";
 import RecoverSessionClient from "./RecoverSessionClient";
+import { getResortById } from "@/assets/resorts";
 
 export const dynamic = "force-dynamic";
+
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   // apiVersion intentionally omitted to match the installed Stripe SDK types
@@ -35,6 +38,9 @@ export default async function PaymentSuccessPage({
 
   if (!sessionId) {
     console.error("Success Page: No session_id found in URL");
+
+
+
     return (
       <main className="min-h-screen pt-28 pb-16 bg-gray-50 dark:bg-background">
         <div className="px-4 mx-auto max-w-3xl sm:px-6 xl:px-4">
@@ -119,6 +125,15 @@ export default async function PaymentSuccessPage({
 
   const isPaid = session.payment_status === "paid";
 
+  const resortId = md.resortId;
+  const resort = resortId ? getResortById(resortId) : null;
+  const mapSrc = resort?.location
+    ? `https://www.google.com/maps?q=${resort.location.lat},${resort.location.lng}&hl=ar&z=15&output=embed`
+    : null;
+  const mapLink = resort?.location
+    ? `https://maps.google.com/?q=${resort.location.lat},${resort.location.lng}`
+    : "https://maps.google.com";
+
   return (
     <main className="min-h-screen pt-28 pb-16 bg-gray-50 dark:bg-background">
       <div className="px-4 mx-auto max-w-4xl sm:px-6 xl:px-4">
@@ -193,6 +208,29 @@ export default async function PaymentSuccessPage({
               </div>
             </div>
           </div>
+
+          {mapSrc ? (
+            <div className="mt-6 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#18181b]">
+              <h2 className="font-semibold text-heading mb-3">موقع الشاليه</h2>
+              <div className="w-full h-[320px] rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800">
+                <iframe
+                  title="Resort location"
+                  src={mapSrc}
+                  className="w-full h-full"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+              <a
+                href={mapLink}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-black hover:bg-background-hover transition"
+              >
+                افتح الموقع في Google Maps
+              </a>
+            </div>
+          ) : null}
 
           <div className="mt-6 grid gap-3 md:grid-cols-2">
             <a

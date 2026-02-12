@@ -8,7 +8,6 @@ type Props = {
   id: string;
   resortName: string;
   paymentLink?: string | null;
-  mapLink: string;
 };
 
 function requestBookingValidation(): Promise<boolean> {
@@ -48,7 +47,6 @@ export default function ResortActionButtons({
   id,
   resortName,
   paymentLink,
-  mapLink,
 }: Props) {
   const router = useRouter();
 
@@ -73,14 +71,14 @@ export default function ResortActionButtons({
           const parsed = JSON.parse(raw);
           if (parsed && typeof parsed === "object") {
             const params = new URLSearchParams(new URL(href, window.location.origin).search);
-            
+
             if (parsed.checkIn) params.set("checkIn", String(parsed.checkIn));
             if (parsed.checkOut) params.set("checkOut", String(parsed.checkOut));
             if (parsed.guests != null) params.set("guests", String(parsed.guests));
             if (parsed.fullName) params.set("fullName", String(parsed.fullName));
             if (parsed.email) params.set("email", String(parsed.email));
             if (parsed.phone) params.set("phone", String(parsed.phone));
-            
+
             const baseHref = href.split("?")[0];
             href = `${baseHref}?${params.toString()}`;
           }
@@ -140,10 +138,10 @@ export default function ResortActionButtons({
       </Link>
 
       <a
-        href={paymentLink || mapLink}
+        href={paymentLink || "#"}
         target="_blank"
         rel="noreferrer"
-        onClick={(e) => handleExternal(e, paymentLink || mapLink)}
+        onClick={(e) => handleExternal(e, paymentLink || "#")}
         className="inline-flex items-center justify-center gap-2 px-5 py-4 text-sm font-medium text-white rounded-xl bg-black hover:bg-gray-800 transition"
       >
         <span>ادفع الآن عبر Link</span>
