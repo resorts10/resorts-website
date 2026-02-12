@@ -1,0 +1,7 @@
+{
+  "note": "Add these dependencies to your package.json",
+  "dependencies": {
+    "stripe": "^17.5.0",
+    "@stripe/stripe-js": "^4.10.0"
+  }
+}
