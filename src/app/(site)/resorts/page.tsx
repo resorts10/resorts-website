@@ -240,108 +240,123 @@ function useScrollSnapCarousel(count: number) {
 
     isDraggingRef.current = false;
 
-    if (absDx > 10 && absDx > absDy * 1.5) {
-      dragState.current.moved = true;
-      isDraggingRef.current = true;
+    el.style.scrollBehavior = "auto";
+  }, [computeSnapLefts]);
 
-      try {
-        el.setPointerCapture(e.pointerId);
-      } catch {
-        // Ignore
+  const onPointerMove = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
+    const el = trackRef.current;
+    if (!el) return;
+    if (!dragState.current.isDown) return;
+
+    const dx = e.clientX - dragState.current.startX;
+    const dy = e.clientY - dragState.current.startY;
+
+    if (!dragState.current.moved) {
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
+
+      if (absDx > 10 && absDx > absDy * 1.5) {
+        dragState.current.moved = true;
+        isDraggingRef.current = true;
+
+        try {
+          el.setPointerCapture(e.pointerId);
+        } catch {
+          // Ignore
+        }
+
+        e.preventDefault();
+      } else if (absDy > 10) {
+        dragState.current.isDown = false;
+        return;
       }
-
-      e.preventDefault();
-    } else if (absDy > 10) {
-      dragState.current.isDown = false;
-      return;
     }
-  }
 
     if (dragState.current.moved) {
-    e.preventDefault();
+      e.preventDefault();
 
-    const now = Date.now();
-    const dt = now - dragState.current.lastTime;
-    if (dt > 0) {
-      const vx = (e.clientX - dragState.current.lastX) / dt;
-      dragState.current.velocity = vx;
-      dragState.current.lastX = e.clientX;
-      dragState.current.lastTime = now;
+      const now = Date.now();
+      const dt = now - dragState.current.lastTime;
+      if (dt > 0) {
+        const vx = (e.clientX - dragState.current.lastX) / dt;
+        dragState.current.velocity = vx;
+        dragState.current.lastX = e.clientX;
+        dragState.current.lastTime = now;
+      }
+
+      el.scrollLeft = dragState.current.scrollLeft - dx;
     }
+  }, []);
 
-    el.scrollLeft = dragState.current.scrollLeft - dx;
-  }
-}, []);
+  const onPointerUp = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
+    const el = trackRef.current;
+    dragState.current.isDown = false;
 
-const onPointerUp = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
-  const el = trackRef.current;
-  dragState.current.isDown = false;
-
-  try {
-    el?.releasePointerCapture(e.pointerId);
-  } catch {
-    // Ignore
-  }
-
-  if (el) {
-    el.style.scrollBehavior = "smooth";
-  }
-
-  if (dragState.current.moved && Math.abs(dragState.current.velocity) > 0.3) {
-    const momentum = dragState.current.velocity * 200;
-    const currentScroll = el?.scrollLeft ?? 0;
-    const targetScroll = currentScroll - momentum;
+    try {
+      el?.releasePointerCapture(e.pointerId);
+    } catch {
+      // Ignore
+    }
 
     if (el) {
-      el.scrollTo({
-        left: Math.max(0, Math.min(targetScroll, el.scrollWidth - el.clientWidth)),
-        behavior: "smooth",
-      });
+      el.style.scrollBehavior = "smooth";
     }
-  }
 
-  setTimeout(() => {
-    isDraggingRef.current = false;
-  }, 100);
-}, []);
+    if (dragState.current.moved && Math.abs(dragState.current.velocity) > 0.3) {
+      const momentum = dragState.current.velocity * 200;
+      const currentScroll = el?.scrollLeft ?? 0;
+      const targetScroll = currentScroll - momentum;
 
-// ==================== HELPER FUNCTIONS ====================
+      if (el) {
+        el.scrollTo({
+          left: Math.max(0, Math.min(targetScroll, el.scrollWidth - el.clientWidth)),
+          behavior: "smooth",
+        });
+      }
+    }
 
-const isDragging = useCallback(() => isDraggingRef.current, []);
+    setTimeout(() => {
+      isDraggingRef.current = false;
+    }, 100);
+  }, []);
 
-const guardedClick = useCallback((cb: () => void) => {
-  if (isDraggingRef.current) return;
-  cb();
-}, []);
+  // ==================== HELPER FUNCTIONS ====================
 
-const prev = useCallback(() => {
-  const newIndex = Math.max(0, activeIndex - 1);
-  scrollToIndex(newIndex);
-}, [activeIndex, scrollToIndex]);
+  const isDragging = useCallback(() => isDraggingRef.current, []);
 
-const next = useCallback(() => {
-  const newIndex = Math.min(count - 1, activeIndex + 1);
-  scrollToIndex(newIndex);
-}, [activeIndex, count, scrollToIndex]);
+  const guardedClick = useCallback((cb: () => void) => {
+    if (isDraggingRef.current) return;
+    cb();
+  }, []);
 
-// ==================== RETURN API ====================
+  const prev = useCallback(() => {
+    const newIndex = Math.max(0, activeIndex - 1);
+    scrollToIndex(newIndex);
+  }, [activeIndex, scrollToIndex]);
 
-return {
-  trackRef,
-  thumbnailContainerRef,
-  setItemRef,
-  setThumbnailRef,
-  activeIndex,
-  total: count,
-  scrollToIndex,
-  prev,
-  next,
-  onPointerDown,
-  onPointerMove,
-  onPointerUp,
-  isDragging,
-  guardedClick,
-};
+  const next = useCallback(() => {
+    const newIndex = Math.min(count - 1, activeIndex + 1);
+    scrollToIndex(newIndex);
+  }, [activeIndex, count, scrollToIndex]);
+
+  // ==================== RETURN API ====================
+
+  return {
+    trackRef,
+    thumbnailContainerRef,
+    setItemRef,
+    setThumbnailRef,
+    activeIndex,
+    total: count,
+    scrollToIndex,
+    prev,
+    next,
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+    isDragging,
+    guardedClick,
+  };
 }
 
 // ============================================================================

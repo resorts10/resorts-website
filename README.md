@@ -1,5 +1,5 @@
 # Next.js Full-Stack Complete eCommerce Solution
-
+![amwaj-resorts-landing-page](public/assets/resort1/hero.png)
 A Complete and full-stack eCommerce platform built with Next.js. Launch your online store with core features like product management, secure Stripe payments, built-in custom CMS, and responsive design. Enjoy full control, lifetime free updates, and comprehensive documentation to build, develop, and scale your store effortlessly.
 
 #### [🌐 Visit Website](https://cozycommerce.dev/)
